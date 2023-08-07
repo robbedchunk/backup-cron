@@ -68,7 +68,7 @@ export const backup = async () => {
   let date = new Date().toISOString()
   const timestamp = date.replace(/[:.]+/g, '-')
   const filename = `backup-${timestamp}.tar.gz`
-  const filepath = `db-backup/tmp/${filename}`
+  const filepath = `db-backup/${filename}`
 
   await dumpToFile(filepath)
   await uploadToS3({name: filename, path: filepath})

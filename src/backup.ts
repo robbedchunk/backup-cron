@@ -23,7 +23,7 @@ const uploadToS3 = async ({ name, path }: {name: string, path: string}) => {
   await client.send(
     new PutObjectCommand({
       Bucket: bucket,
-      Key: path,
+      Key: `db-backup/${name}`,
       Body: createReadStream(path),
     })
   )
@@ -68,7 +68,7 @@ export const backup = async () => {
   let date = new Date().toISOString()
   const timestamp = date.replace(/[:.]+/g, '-')
   const filename = `backup-${timestamp}.tar.gz`
-  const filepath = `db-backup/${filename}`
+  const filepath = `tmp/${filename}`
 
   await dumpToFile(filepath)
   await uploadToS3({name: filename, path: filepath})
